@@ -292,7 +292,7 @@ namespace FlourMill_1.Controllers
                                tons= od.tons,
                                Badge= od.Badge,
                                orderId =od.orderId,
-                               id= od.id,
+                              
                             }).ToListAsync();
 
 
@@ -301,6 +301,7 @@ namespace FlourMill_1.Controllers
 
             entity2.TruckDriverID = updateTruck.id;
             entity2.OrderStatues = updateTruck.orderStatues;
+            entity2.ID=null;
 
             await _context.Order.AddAsync(entity2);
             await _context.SaveChangesAsync();
@@ -331,7 +332,7 @@ namespace FlourMill_1.Controllers
                                 tons = od.tons,
                                 Badge = od.Badge,
                                 orderId = od.orderId,
-                                id = od.id,
+                             
                             }).ToListAsync();
 
 
@@ -339,6 +340,7 @@ namespace FlourMill_1.Controllers
            await _context.SaveChangesAsync();
 
          beforeupdate.OrderStatues = finishOrderDTO.orderStatues;
+         beforeupdate.ID=null;
            await _context.AddAsync(beforeupdate);
          await _context.orderProducts.AddRangeAsync(td);
          await _context.SaveChangesAsync();
