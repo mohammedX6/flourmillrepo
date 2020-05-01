@@ -253,7 +253,7 @@ namespace FlourMill_1.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                      ,
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Order_Date = table.Column<string>(nullable: true),
                     TotalTons = table.Column<double>(nullable: false),
                     OrderStatues = table.Column<int>(nullable: false),
@@ -294,7 +294,7 @@ namespace FlourMill_1.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                     ,
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Badge = table.Column<string>(nullable: true),
                     pic = table.Column<string>(nullable: true),
                     price = table.Column<int>(nullable: false),
