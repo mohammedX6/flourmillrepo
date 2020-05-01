@@ -303,6 +303,7 @@ namespace FlourMill_1.Controllers
             entity2.OrderStatues = updateTruck.orderStatues;
 
             await _context.Order.AddAsync(entity2);
+            await _context.SaveChangesAsync();
             await _context.orderProducts.AddRangeAsync(td);
             await _context.SaveChangesAsync();
 
