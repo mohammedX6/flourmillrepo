@@ -65,7 +65,7 @@ namespace FlourMill_1.Controllers
             {
 
                 string truckphoneNumber = gettruck.ElementAt(i).PhoneNumber;
-                truckphoneNumber.Remove(0, 1);
+                truckphoneNumber= truckphoneNumber.Remove(0, 1);
                 var messageOptions = new CreateMessageOptions(
               new PhoneNumber("whatsapp:+962" + truckphoneNumber));
                 messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
@@ -107,7 +107,7 @@ namespace FlourMill_1.Controllers
             var authToken = "b0adb5c55ca70e17ff56de32cfe3e364";
             TwilioClient.Init(accountSid, authToken);
             string truckphoneNumber = getbakery.PhoneNumber;
-            truckphoneNumber.Remove(0, 1);
+            truckphoneNumber= truckphoneNumber.Remove(0, 1);
             var messageOptions = new CreateMessageOptions(
                 new PhoneNumber("whatsapp:+962" + truckphoneNumber));
             messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
