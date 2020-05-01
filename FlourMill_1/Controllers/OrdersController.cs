@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Twilio;
@@ -23,6 +24,62 @@ namespace FlourMill_1.Controllers
         public OrdersController(DataContext context)
         {
             _context = context;
+        }
+
+
+        [HttpPost]
+        [Route("addOrder_only")]
+        public async Task<IActionResult> addOrderOnly(Order order)
+        {
+
+            await _context.Order.AddAsync(order);
+            await _context.SaveChangesAsync();
+
+            var x = (from pd in _context.Order
+                     join od in _context.Bakery on pd.BakeryID equals od.Id
+                     select new
+                     {
+                         pd.ID
+                     }).OrderByDescending(x => x.ID).First().ToString();
+
+
+
+
+            var getbakery = _context.Administrator.FirstOrDefault(x => x.Id == order.AdministratorID);
+            var gettruck = _context.TruckDriver.FirstOrDefault(x => x.Id == order.TruckDriverID);
+
+            string phonnumber = getbakery.PhoneNumber;
+            phonnumber = phonnumber.Remove(0, 1);
+
+            string truckphoneNumber = getbakery.PhoneNumber;
+            var accountSid = "AC9385ee5b15020a0b41930222101b915e";
+            var authToken = "b0adb5c55ca70e17ff56de32cfe3e364";
+            TwilioClient.Init(accountSid, authToken);
+
+            var messageOptions = new CreateMessageOptions(
+                new PhoneNumber("whatsapp:+962" + phonnumber));
+            messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
+            messageOptions.Body = "Flour order of " + order.TotalTons + " tons has  Placed  " + order.Order_Date + " Please check it ASAP !";
+
+
+            var message2 = MessageResource.Create(messageOptions);
+
+            return Ok(new
+            {
+
+                id = x
+            });
+
+        }
+        [HttpPost]
+        [Route("addOrderProducts_only")]
+        public async Task<IActionResult> addOrderProductsOnly(List<OrderProducts> order)
+        {
+
+            await _context.orderProducts.AddRangeAsync(order);
+            await _context.SaveChangesAsync();
+            return Ok();
+
         }
 
         [HttpPost]
@@ -45,12 +102,14 @@ namespace FlourMill_1.Controllers
                          pd.ID
                      }).OrderByDescending(x => x.ID).First().ToString();
 
-            Console.WriteLine("Order id " + x);
 
-            var getbakery = _context.Bakery.FirstOrDefault(x => x.Id == myorder.BakeryID);
+
+            var getbakery = _context.Administrator.FirstOrDefault(x => x.Id == myorder.AdministratorID);
             var gettruck = _context.TruckDriver.FirstOrDefault(x => x.Id == myorder.TruckDriverID);
 
             string phonnumber = getbakery.PhoneNumber;
+            phonnumber= phonnumber.Remove(0, 1);
+
             string truckphoneNumber = getbakery.PhoneNumber;
             var accountSid = "AC9385ee5b15020a0b41930222101b915e";
             var authToken = "b0adb5c55ca70e17ff56de32cfe3e364";
@@ -63,7 +122,7 @@ namespace FlourMill_1.Controllers
 
 
             var message2 = MessageResource.Create(messageOptions);
-            Console.WriteLine(message2.Body);
+ 
 
             return Ok(new
             {
@@ -124,10 +183,9 @@ namespace FlourMill_1.Controllers
         public IActionResult GetAllOrdersTruckDriver()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Console.WriteLine("idnew " + id);
+           
             var temp = _context.TruckDriver.FirstOrDefault(x => x.Id == id);
             int adminid = temp.AdministratorID;
-            Console.WriteLine("adcminid " + adminid);
             var td = (from pd in _context.Order
 
                       where pd.OrderStatues == 1 && pd.AdministratorID == adminid
@@ -154,10 +212,10 @@ namespace FlourMill_1.Controllers
         public IActionResult Gethistory()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Console.WriteLine("idnew " + id);
+    
             var temp = _context.TruckDriver.FirstOrDefault(x => x.Id == id);
             int adminid = temp.AdministratorID;
-            Console.WriteLine("adminid " + adminid);
+          
             var td = (from pd in _context.Order
 
                       where pd.TruckDriverID== id && pd.OrderStatues == 1 && pd.AdministratorID == adminid || pd.OrderStatues == 2 || pd.OrderStatues == 3
@@ -260,7 +318,7 @@ namespace FlourMill_1.Controllers
             
 
             var beforeupdate = await _context.Order.FirstOrDefaultAsync(x => x.ID == finishOrderDTO.orderId);
-            Console.WriteLine("idmmmmm " + finishOrderDTO.orderId);
+ 
 
             var td = await (from od in _context.orderProducts
 
@@ -276,7 +334,6 @@ namespace FlourMill_1.Controllers
                             }).ToListAsync();
 
 
-            Console.WriteLine("orooror " + td.Count);
              _context.Order.Remove(beforeupdate);
            await _context.SaveChangesAsync();
 
