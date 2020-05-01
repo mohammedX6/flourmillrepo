@@ -199,12 +199,11 @@ namespace FlourMill_1.Controllers
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var temp = _context.TruckDriver.FirstOrDefault(x => x.Id == id);
-            int adminid = temp.AdministratorID;
+ 
 
             var td = (from pd in _context.Order
 
-                      where pd.TruckDriverID == id && pd.OrderStatues == 1 && pd.AdministratorID == adminid || pd.OrderStatues == 2 || pd.OrderStatues == 3
+                      where pd.TruckDriverID == id
                       select new
                       {
                           pd.OrderComment,
