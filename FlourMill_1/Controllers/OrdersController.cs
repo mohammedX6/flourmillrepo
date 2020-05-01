@@ -314,9 +314,30 @@ namespace FlourMill_1.Controllers
             o.Order_Date = entity2.Order_Date;
             o.ShipmentPrice = entity2.ShipmentPrice;
 
+           
+
             await _context.Order.AddAsync(o);
             await _context.SaveChangesAsync();
-            await _context.orderProducts.AddRangeAsync(td);
+
+
+            var x = (from pd in _context.Order
+                     join od in _context.Bakery on pd.BakeryID equals od.Id
+                     select new
+                     {
+                         pd.ID
+                     }).OrderByDescending(x => x.ID).First().ToString();
+
+
+            List<OrderProducts> s = td;
+            for (int i = 0; i < s.Count; i++)
+            {
+                s.ElementAt(i).id = int.Parse(x);
+            }
+
+
+
+
+            await _context.orderProducts.AddRangeAsync(s);
             await _context.SaveChangesAsync();
 
             return Ok("Tables Updated");
@@ -364,7 +385,22 @@ namespace FlourMill_1.Controllers
             o.Order_Date = beforeupdate.Order_Date;
             o.ShipmentPrice = beforeupdate.ShipmentPrice;
             await _context.AddAsync(beforeupdate);
-         await _context.orderProducts.AddRangeAsync(td);
+            await _context.SaveChangesAsync();
+
+            var x = (from pd in _context.Order
+                     join od in _context.Bakery on pd.BakeryID equals od.Id
+                     select new
+                     {
+                         pd.ID
+                     }).OrderByDescending(x => x.ID).First().ToString();
+
+
+            List<OrderProducts> s = td;
+            for (int i = 0; i < s.Count; i++)
+            {
+                s.ElementAt(i).id = int.Parse(x);
+            }
+            await _context.orderProducts.AddRangeAsync(s);
          await _context.SaveChangesAsync();
             return Ok("Order Finished");
         }
