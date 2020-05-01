@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -328,10 +329,15 @@ namespace FlourMill_1.Controllers
                      }).OrderByDescending(x => x.ID).First().ToString();
 
 
+
+
+            var stripped = Regex.Replace(x, "[^0-9]", "");
+
+
             List<OrderProducts> s = td;
             for (int i = 0; i < s.Count; i++)
             {
-                s.ElementAt(i).id = int.Parse(x);
+                s.ElementAt(i).id = int.Parse(stripped);
             }
 
 
