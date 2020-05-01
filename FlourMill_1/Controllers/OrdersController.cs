@@ -337,7 +337,7 @@ namespace FlourMill_1.Controllers
             List<OrderProducts> s = td;
             for (int i = 0; i < s.Count; i++)
             {
-                s.ElementAt(i).id = int.Parse(stripped);
+                s.ElementAt(i).orderId = int.Parse(stripped);
             }
 
 
@@ -401,10 +401,12 @@ namespace FlourMill_1.Controllers
                      }).OrderByDescending(x => x.ID).First().ToString();
 
 
+            var stripped = Regex.Replace(x, "[^0-9]", "");
+
             List<OrderProducts> s = td;
             for (int i = 0; i < s.Count; i++)
             {
-                s.ElementAt(i).id = int.Parse(x);
+                s.ElementAt(i).orderId = int.Parse(stripped);
             }
             await _context.orderProducts.AddRangeAsync(s);
          await _context.SaveChangesAsync();
