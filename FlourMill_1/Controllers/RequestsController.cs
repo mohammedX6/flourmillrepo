@@ -65,6 +65,7 @@ namespace FlourMill_1.Controllers
             {
 
                 string truckphoneNumber = gettruck.ElementAt(i).PhoneNumber;
+                truckphoneNumber.Remove(0, 1);
                 var messageOptions = new CreateMessageOptions(
               new PhoneNumber("whatsapp:+962" + truckphoneNumber));
                 messageOptions.From = new PhoneNumber("whatsapp:+14155238886");

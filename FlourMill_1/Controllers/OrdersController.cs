@@ -47,10 +47,12 @@ namespace FlourMill_1.Controllers
 
 
 
-            var getbakery = _context.Bakery.FirstOrDefault(x => x.Id == myorder.BakeryID);
+            var getbakery = _context.Administrator.FirstOrDefault(x => x.Id == myorder.AdministratorID);
             var gettruck = _context.TruckDriver.FirstOrDefault(x => x.Id == myorder.TruckDriverID);
 
             string phonnumber = getbakery.PhoneNumber;
+            phonnumber.Remove(0, 1);
+
             string truckphoneNumber = getbakery.PhoneNumber;
             var accountSid = "AC9385ee5b15020a0b41930222101b915e";
             var authToken = "b0adb5c55ca70e17ff56de32cfe3e364";
