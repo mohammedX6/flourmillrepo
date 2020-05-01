@@ -51,7 +51,7 @@ namespace FlourMill_1.Controllers
             var gettruck = _context.TruckDriver.FirstOrDefault(x => x.Id == myorder.TruckDriverID);
 
             string phonnumber = getbakery.PhoneNumber;
-            phonnumber.Remove(0, 1);
+            phonnumber= phonnumber.Remove(0, 1);
 
             string truckphoneNumber = getbakery.PhoneNumber;
             var accountSid = "AC9385ee5b15020a0b41930222101b915e";
