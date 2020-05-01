@@ -3,10 +3,8 @@ using FlourMill_1.Dtos;
 using FlourMill_1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -27,12 +25,10 @@ namespace FlourMill_1.Controllers
             _context = context;
         }
 
-
         [HttpPost]
         [Route("addOrder_only")]
         public async Task<IActionResult> addOrderOnly(Order order)
         {
-
             await _context.Order.AddAsync(order);
             await _context.SaveChangesAsync();
 
@@ -42,9 +38,6 @@ namespace FlourMill_1.Controllers
                      {
                          pd.ID
                      }).OrderByDescending(x => x.ID).First().ToString();
-
-
-
 
             var getbakery = _context.Administrator.FirstOrDefault(x => x.Id == order.AdministratorID);
             var gettruck = _context.TruckDriver.FirstOrDefault(x => x.Id == order.TruckDriverID);
@@ -62,25 +55,21 @@ namespace FlourMill_1.Controllers
             messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
             messageOptions.Body = "Flour order of " + order.TotalTons + " tons has  Placed  " + order.Order_Date + " Please check it ASAP !";
 
-
             var message2 = MessageResource.Create(messageOptions);
 
             return Ok(new
             {
-
                 id = x
             });
-
         }
+
         [HttpPost]
         [Route("addOrderProducts_only")]
         public async Task<IActionResult> addOrderProductsOnly(List<OrderProducts> order)
         {
-
             await _context.orderProducts.AddRangeAsync(order);
             await _context.SaveChangesAsync();
             return Ok();
-
         }
 
         [HttpPost]
@@ -103,13 +92,11 @@ namespace FlourMill_1.Controllers
                          pd.ID
                      }).OrderByDescending(x => x.ID).First().ToString();
 
-
-
             var getbakery = _context.Administrator.FirstOrDefault(x => x.Id == myorder.AdministratorID);
             var gettruck = _context.TruckDriver.FirstOrDefault(x => x.Id == myorder.TruckDriverID);
 
             string phonnumber = getbakery.PhoneNumber;
-            phonnumber= phonnumber.Remove(0, 1);
+            phonnumber = phonnumber.Remove(0, 1);
 
             string truckphoneNumber = getbakery.PhoneNumber;
             var accountSid = "AC9385ee5b15020a0b41930222101b915e";
@@ -119,11 +106,9 @@ namespace FlourMill_1.Controllers
             var messageOptions = new CreateMessageOptions(
                 new PhoneNumber("whatsapp:+962" + phonnumber));
             messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
-            messageOptions.Body = "Flour order of " + myorder.TotalTons + " tons has  Placed  " + myorder.Order_Date+" Please check it ASAP !";
-
+            messageOptions.Body = "Flour order of " + myorder.TotalTons + " tons has  Placed  " + myorder.Order_Date + " Please check it ASAP !";
 
             var message2 = MessageResource.Create(messageOptions);
- 
 
             return Ok(new
             {
@@ -184,7 +169,7 @@ namespace FlourMill_1.Controllers
         public IActionResult GetAllOrdersTruckDriver()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-           
+
             var temp = _context.TruckDriver.FirstOrDefault(x => x.Id == id);
             int adminid = temp.AdministratorID;
             var td = (from pd in _context.Order
@@ -213,13 +198,13 @@ namespace FlourMill_1.Controllers
         public IActionResult Gethistory()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-    
+
             var temp = _context.TruckDriver.FirstOrDefault(x => x.Id == id);
             int adminid = temp.AdministratorID;
-          
+
             var td = (from pd in _context.Order
 
-                      where pd.TruckDriverID== id && pd.OrderStatues == 1 && pd.AdministratorID == adminid || pd.OrderStatues == 2 || pd.OrderStatues == 3
+                      where pd.TruckDriverID == id && pd.OrderStatues == 1 && pd.AdministratorID == adminid || pd.OrderStatues == 2 || pd.OrderStatues == 3
                       select new
                       {
                           pd.OrderComment,
@@ -284,18 +269,16 @@ namespace FlourMill_1.Controllers
         {
             var entity2 = await _context.Order.FirstOrDefaultAsync(item => item.ID == updateTruck.orderid);
             var td = await (from od in _context.orderProducts
-                            where od.orderId==updateTruck.orderid
+                            where od.orderId == updateTruck.orderid
 
                             select new OrderProducts
                             {
-                               pic=  od.pic,
-                               price= od.price,
-                               tons= od.tons,
-                               Badge= od.Badge,
-                               orderId =od.orderId,
-                              
+                                pic = od.pic,
+                                price = od.price,
+                                tons = od.tons,
+                                Badge = od.Badge,
+                                orderId = od.orderId,
                             }).ToListAsync();
-
 
             _context.Order.Remove(entity2);
             await _context.SaveChangesAsync();
@@ -315,11 +298,8 @@ namespace FlourMill_1.Controllers
             o.Order_Date = entity2.Order_Date;
             o.ShipmentPrice = entity2.ShipmentPrice;
 
-           
-
             await _context.Order.AddAsync(o);
             await _context.SaveChangesAsync();
-
 
             var x = (from pd in _context.Order
                      join od in _context.Bakery on pd.BakeryID equals od.Id
@@ -328,20 +308,13 @@ namespace FlourMill_1.Controllers
                          pd.ID
                      }).OrderByDescending(x => x.ID).First().ToString();
 
-
-
-
             var stripped = Regex.Replace(x, "[^0-9]", "");
-
 
             List<OrderProducts> s = td;
             for (int i = 0; i < s.Count; i++)
             {
                 s.ElementAt(i).orderId = int.Parse(stripped);
             }
-
-
-
 
             await _context.orderProducts.AddRangeAsync(s);
             await _context.SaveChangesAsync();
@@ -353,12 +326,7 @@ namespace FlourMill_1.Controllers
         [Route("finish_order")]
         public async Task<IActionResult> FinishOrder(FinishOrderDTO finishOrderDTO)
         {
-
-          
-            
-
             var beforeupdate = await _context.Order.FirstOrDefaultAsync(x => x.ID == finishOrderDTO.orderId);
- 
 
             var td = await (from od in _context.orderProducts
 
@@ -370,14 +338,12 @@ namespace FlourMill_1.Controllers
                                 tons = od.tons,
                                 Badge = od.Badge,
                                 orderId = od.orderId,
-                             
                             }).ToListAsync();
 
+            _context.Order.Remove(beforeupdate);
+            await _context.SaveChangesAsync();
 
-             _context.Order.Remove(beforeupdate);
-           await _context.SaveChangesAsync();
-
-         beforeupdate.OrderStatues = finishOrderDTO.orderStatues;
+            beforeupdate.OrderStatues = finishOrderDTO.orderStatues;
             Order o = new Order();
             o.AdministratorID = beforeupdate.AdministratorID;
             o.BakeryID = beforeupdate.BakeryID;
@@ -390,7 +356,7 @@ namespace FlourMill_1.Controllers
             o.TotalPayment = beforeupdate.TotalPayment;
             o.Order_Date = beforeupdate.Order_Date;
             o.ShipmentPrice = beforeupdate.ShipmentPrice;
-            await _context.AddAsync(beforeupdate);
+            await _context.AddAsync(o);
             await _context.SaveChangesAsync();
 
             var x = (from pd in _context.Order
@@ -400,7 +366,6 @@ namespace FlourMill_1.Controllers
                          pd.ID
                      }).OrderByDescending(x => x.ID).First().ToString();
 
-
             var stripped = Regex.Replace(x, "[^0-9]", "");
 
             List<OrderProducts> s = td;
@@ -409,7 +374,7 @@ namespace FlourMill_1.Controllers
                 s.ElementAt(i).orderId = int.Parse(stripped);
             }
             await _context.orderProducts.AddRangeAsync(s);
-         await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return Ok("Order Finished");
         }
 
