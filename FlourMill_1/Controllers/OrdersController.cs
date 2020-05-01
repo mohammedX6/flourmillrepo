@@ -301,9 +301,20 @@ namespace FlourMill_1.Controllers
 
             entity2.TruckDriverID = updateTruck.id;
             entity2.OrderStatues = updateTruck.orderStatues;
-            entity2.ID=null;
+            Order o = new Order();
+            o.AdministratorID = entity2.AdministratorID;
+            o.BakeryID = entity2.BakeryID;
+            o.CustomerName = entity2.CustomerName;
+            o.Destination = entity2.Destination;
+            o.OrderComment = entity2.OrderComment;
+            o.OrderStatues = entity2.OrderStatues;
+            o.TruckDriverID = entity2.TruckDriverID;
+            o.TotalTons = entity2.TotalTons;
+            o.TotalPayment = entity2.TotalPayment;
+            o.Order_Date = entity2.Order_Date;
+            o.ShipmentPrice = entity2.ShipmentPrice;
 
-            await _context.Order.AddAsync(entity2);
+            await _context.Order.AddAsync(o);
             await _context.SaveChangesAsync();
             await _context.orderProducts.AddRangeAsync(td);
             await _context.SaveChangesAsync();
@@ -340,8 +351,19 @@ namespace FlourMill_1.Controllers
            await _context.SaveChangesAsync();
 
          beforeupdate.OrderStatues = finishOrderDTO.orderStatues;
-         beforeupdate.ID=null;
-           await _context.AddAsync(beforeupdate);
+            Order o = new Order();
+            o.AdministratorID = beforeupdate.AdministratorID;
+            o.BakeryID = beforeupdate.BakeryID;
+            o.CustomerName = beforeupdate.CustomerName;
+            o.Destination = beforeupdate.Destination;
+            o.OrderComment = beforeupdate.OrderComment;
+            o.OrderStatues = beforeupdate.OrderStatues;
+            o.TruckDriverID = beforeupdate.TruckDriverID;
+            o.TotalTons = beforeupdate.TotalTons;
+            o.TotalPayment = beforeupdate.TotalPayment;
+            o.Order_Date = beforeupdate.Order_Date;
+            o.ShipmentPrice = beforeupdate.ShipmentPrice;
+            await _context.AddAsync(beforeupdate);
          await _context.orderProducts.AddRangeAsync(td);
          await _context.SaveChangesAsync();
             return Ok("Order Finished");
