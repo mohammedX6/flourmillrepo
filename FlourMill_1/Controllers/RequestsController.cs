@@ -102,19 +102,18 @@ namespace FlourMill_1.Controllers
             var getbakery = _context.Bakery.FirstOrDefault(x => x.Id == getOrder.BakeryID);
 
             parsedDate = DateTime.Parse(getOrder.Order_Date);
-
+          
             var accountSid = "AC9385ee5b15020a0b41930222101b915e";
             var authToken = "b0adb5c55ca70e17ff56de32cfe3e364";
             TwilioClient.Init(accountSid, authToken);
-
+            string truckphoneNumber = getbakery.PhoneNumber;
+            truckphoneNumber.Remove(0, 1);
             var messageOptions = new CreateMessageOptions(
-                new PhoneNumber("whatsapp:+962770133245"));
+                new PhoneNumber("whatsapp:+962" + truckphoneNumber));
             messageOptions.From = new PhoneNumber("whatsapp:+14155238886");
             messageOptions.Body = "Your Flour order of " + getOrder.TotalTons + " tons has Canceled  " + parsedDate;
 
             var message = MessageResource.Create(messageOptions);
-
-            var message2 = MessageResource.Create(messageOptions);
 
             _context.Order.Remove(getOrder);
 
