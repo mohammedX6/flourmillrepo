@@ -184,22 +184,28 @@ namespace FlourMill_1.Controllers
             int id2 = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             string username = User.FindFirst(ClaimTypes.Name).Value;
 
+
+
             var ReportDetaileds = from order in _context.Order
-                        join orderp in _context.orderProducts on order.ID equals orderp.orderId
-                        where order.AdministratorID == id2
+                                  join orderp in _context.orderProducts on order.ID equals orderp.orderId
+                                  where order.AdministratorID == id2
                                   select new
-                        {
-                            order.TotalPayment,
-                            orderp.Badge,
-                            orderp.price,
+                                  {
+                                      order.TotalPayment,
+                                      orderp.Badge,
+                                      orderp.price,
+                                      orderp.tons,
                             orderp.orderId
-                        } into t1
-                        group t1 by t1.Badge into g
-                        select new
-                        {
-                            Product = g.Key,
-                            Payment = g.Sum(x => x.price)
-                        };
+                                  } into t1
+                                  group t1 by t1.Badge into g
+                                  select new
+                                  {
+                                      Product = g.Key,
+                                      Tons = g.Sum(x => x.tons),
+                                      Payment = g.Sum(x => x.price)
+                                  };
+        
+
             return Ok(ReportDetaileds);
         }
 
