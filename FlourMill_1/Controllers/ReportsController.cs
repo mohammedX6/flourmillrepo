@@ -61,12 +61,8 @@ namespace FlourMill_1.Controllers
                             select new
                             {
                                 admin.Id,
-
-                         
                                 admin.Username,
-                                admin.TotalFlourMillPayment,
-                              
-
+                      
                                 order.TotalTons,
                                 order.Order_Date,
                                 order.TotalPayment
@@ -90,8 +86,7 @@ namespace FlourMill_1.Controllers
                         SuperVisorID = 1,
                         TotalPayment = TotalMyPayment.ToString(),
                         TotalBadgesForFlourMill = TotalBadges,
-                        Flour_Mill_Name = username
-                        ,
+                        Flour_Mill_Name = username,
                         Report_Date = date
                     };
 
@@ -104,17 +99,15 @@ namespace FlourMill_1.Controllers
             {
                 var getReports = await
                            (from admin in _context.Administrator
-                            join product in _context.Product on id equals product.AdministratorID
                             join order in _context.Order on id equals order.AdministratorID
                             where admin.Id == id
                             select new
                             {
                                 admin.Id,
 
-                                product.Usage,
+                 
                                 admin.Username,
-                                admin.TotalFlourMillPayment,
-                                product.BadgeName,
+                     
                                 order.TotalTons,
                                 order.TotalPayment,
                                 order.Order_Date

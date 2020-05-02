@@ -30,13 +30,14 @@ namespace FlourMill_1.Controllers
                         {
                             order.TotalPayment,
                             orderp.Badge,
+                            orderp.price,
                             orderp.orderId
                         } into t1
                         group t1 by t1.Badge into g
                         select new
                         {
                             Product = g.Key,
-                            Payment = g.Sum(x => x.TotalPayment)
+                            Payment = g.Sum(x => x.price)
                         };
 
             return Ok(sales);
