@@ -235,7 +235,7 @@ namespace FlourMill_1.Controllers
                                   {
                                       Product = g.Key,
                                       Tons = g.Sum(x => x.tons),
-                                      Payment = g.Sum(x => x.price),
+                                      Payment = g.Sum(x => x.price*x.tons),
                                   };
             return Ok(ReportDetaileds);
         }
