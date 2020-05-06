@@ -224,8 +224,8 @@ namespace FlourMill_1.Controllers
                                   where order.AdministratorID == admin
                                   select new
                                   {
-                                      order.TotalTons,
-                                      order.TotalPayment,
+                                      orderp.tons,
+                                      orderp.price,
                                       orderp.Badge,
 
 
@@ -234,8 +234,8 @@ namespace FlourMill_1.Controllers
                                   select new
                                   {
                                       Product = g.Key,
-                                      Tons = g.Sum(x => x.TotalTons),
-                                      Payment = g.Sum(x => x.TotalPayment),
+                                      Tons = g.Sum(x => x.tons),
+                                      Payment = g.Sum(x => x.price),
                                   };
             return Ok(ReportDetaileds);
         }
