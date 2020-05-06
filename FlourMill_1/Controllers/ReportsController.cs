@@ -220,9 +220,8 @@ namespace FlourMill_1.Controllers
    
 
             var ReportDetaileds = from order in _context.Order
-                                  from report in _context.Report
                                   join orderp in _context.orderProducts on order.ID equals orderp.orderId
-                                  where report.ID == id && order.AdministratorID== admin
+                                  where order.AdministratorID == admin
                                   select new
                                   {
                                       order.TotalTons,

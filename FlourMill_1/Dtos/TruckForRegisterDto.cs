@@ -10,7 +10,7 @@ namespace DatingApp.Dtos
         public string Username { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 8 char")]
+        [StringLength(16, MinimumLength = 4, ErrorMessage = "You must specify password between 8 and 16 char")]
         public string Password { get; set; }
 
         [Required]
