@@ -158,44 +158,83 @@ namespace FlourMill_1.Controllers
         [Route("get_truck_info/{id}")]
         public IActionResult getTruckInfo(string id)
         {
-            var allInfo = (from tr in _context.TruckDriver
-                           join od in _context.Order on tr.Id equals od.TruckDriverID
-                           where tr.Id == id
-                           select new
-                           {
-                               tr.Id,
-                               tr.Username,
-                               tr.Email,
-                               tr.BirthDate,
-                               tr.JobNumber,
-                               tr.NationalId,
-                               tr.PhoneNumber,
-                               od.TotalPayment,
-                               od.TotalTons
-                           }).ToList();
+            var checkIfTruckDriverHaveJobs = _context.Order.FirstOrDefault(x => x.TruckDriverID == id);
 
-            double payment = 0;
-            double tons = 0;
-            for (int i = 0; i < allInfo.Count; i++)
+            if (checkIfTruckDriverHaveJobs != null)
             {
-                payment += allInfo.ElementAt(i).TotalPayment;
-                tons += allInfo.ElementAt(i).TotalTons;
+                var allInfo = (from tr in _context.TruckDriver
+                               join od in _context.Order on tr.Id equals od.TruckDriverID
+                               where tr.Id == id
+                               select new
+                               {
+                                   tr.Id,
+                                   tr.Username,
+                                   tr.Email,
+                                   tr.BirthDate,
+                                   tr.JobNumber,
+                                   tr.NationalId,
+                                   tr.PhoneNumber,
+                                   od.TotalPayment,
+                                   od.TotalTons
+                               }).ToList();
+
+                double payment = 0;
+                double tons = 0;
+                for (int i = 0; i < allInfo.Count; i++)
+                {
+                    payment += allInfo.ElementAt(i).TotalPayment;
+                    tons += allInfo.ElementAt(i).TotalTons;
+                }
+
+                var AllInfo = new
+                {
+                    allInfo.ElementAt(0).Id,
+                    allInfo.ElementAt(0).Username,
+                    allInfo.ElementAt(0).Email,
+                    allInfo.ElementAt(0).BirthDate,
+                    allInfo.ElementAt(0).PhoneNumber,
+                    allInfo.ElementAt(0).JobNumber,
+                    allInfo.ElementAt(0).NationalId,
+                    payment,
+                    tons
+                };
+
+                return Ok(AllInfo);
             }
-
-            var AllInfo = new
+            else
             {
-                allInfo.ElementAt(0).Id,
-                allInfo.ElementAt(0).Username,
-                allInfo.ElementAt(0).Email,
-                allInfo.ElementAt(0).BirthDate,
-                allInfo.ElementAt(0).PhoneNumber,
-                allInfo.ElementAt(0).JobNumber,
-                allInfo.ElementAt(0).NationalId,
-                payment,
-                tons
-            };
+                var allInfo = (from tr in _context.TruckDriver
 
-            return Ok(AllInfo);
+                               where tr.Id == id
+                               select new
+                               {
+                                   tr.Id,
+                                   tr.Username,
+                                   tr.Email,
+                                   tr.BirthDate,
+                                   tr.JobNumber,
+                                   tr.NationalId,
+                                   tr.PhoneNumber
+                               }).ToList();
+
+                double payment = 0;
+                double tons = 0;
+
+                var AllInfo = new
+                {
+                    allInfo.ElementAt(0).Id,
+                    allInfo.ElementAt(0).Username,
+                    allInfo.ElementAt(0).Email,
+                    allInfo.ElementAt(0).BirthDate,
+                    allInfo.ElementAt(0).PhoneNumber,
+                    allInfo.ElementAt(0).JobNumber,
+                    allInfo.ElementAt(0).NationalId,
+                    payment,
+                    tons
+                };
+
+                return Ok(AllInfo);
+            }
         }
 
         [HttpPost]
