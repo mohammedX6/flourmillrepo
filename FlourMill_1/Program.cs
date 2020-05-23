@@ -1,5 +1,4 @@
-﻿using FlourMill_1.Controllers;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace DatingApp
@@ -9,10 +8,6 @@ namespace DatingApp
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
-
-        
-
-
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

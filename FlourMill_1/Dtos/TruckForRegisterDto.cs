@@ -27,8 +27,7 @@ namespace DatingApp.Dtos
 
         [Required]
         public string JobNumber { get; set; }
+
         public int AdministratorID { get; set; }
-         
-       
     }
 }

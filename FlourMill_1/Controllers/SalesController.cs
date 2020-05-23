@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 
 namespace FlourMill_1.Controllers
 {
@@ -34,13 +33,13 @@ namespace FlourMill_1.Controllers
                             orderp.Badge,
                             orderp.price,
                             orderp.orderId
-                            ,orderp.tons,
-                    
+                            ,
+                            orderp.tons,
                         } into t1
                         group t1 by t1.Badge into g
                         select new
                         {
-                            Product = g.Key,              
+                            Product = g.Key,
                             Payment = g.Sum(x => x.price * x.tons)
                         };
 
@@ -61,7 +60,6 @@ namespace FlourMill_1.Controllers
                             order.TotalTons,
                             orderp.Badge,
                             orderp.orderId
-
                         } into t1
                         group t1 by t1.Badge into g
                         select new

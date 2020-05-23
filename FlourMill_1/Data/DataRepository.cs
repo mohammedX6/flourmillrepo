@@ -54,6 +54,7 @@ namespace DatingApp.Data
             }
             return user;
         }
+
         public async Task<TruckDriver> TruckDriverLoginFacebook(string email)
         {
             var user = await _context.TruckDriver.FirstOrDefaultAsync(x => x.Email == email);
@@ -61,7 +62,7 @@ namespace DatingApp.Data
             {
                 return null;
             }
-           
+
             return user;
         }
 
@@ -104,9 +105,9 @@ namespace DatingApp.Data
 
             return administrator;
         }
+
         public async Task<Administrator> AdminRegFacebook(Administrator administrator)
         {
-        
             await _context.Administrator.AddAsync(administrator);
             await _context.SaveChangesAsync();
 
@@ -122,11 +123,6 @@ namespace DatingApp.Data
             }
             return user;
         }
-
-
-
-
-
 
         public async Task<Bakery> BakeryReg(Bakery bakery, string password)
         {
@@ -151,9 +147,9 @@ namespace DatingApp.Data
 
             return truck;
         }
+
         public async Task<TruckDriver> TruckDriverRegFacebook(TruckDriver truck)
         {
-           
             await _context.TruckDriver.AddAsync(truck);
             await _context.SaveChangesAsync();
 
