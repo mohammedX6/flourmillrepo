@@ -32,19 +32,16 @@ namespace FlourMill_1.Controllers
             DateTime parsedDate;
             DateTime TempDate;
             DateTime After30date;
-        int id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            int id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             string flourmillname = User.FindFirst(ClaimTypes.Name).Value;
             string username = User.FindFirst(ClaimTypes.Name).Value;
-        
+
             var lastReport = _context.Report.FromSqlRaw("SELECT * FROM Report WHERE  Flour_Mill_Name={0}", flourmillname).ToList();
-          
+
             if (lastReport.Count != 0)
             {
-
                 string dateNew = lastReport.Select(x => x.Report_Date).Max();
 
-
-                
                 string ReportDate = dateNew;
                 int adminidReport = lastReport[0].AdministratorID;
 
@@ -57,12 +54,12 @@ namespace FlourMill_1.Controllers
                     var getReports = await
                            (from admin in _context.Administrator
                             join order in _context.Order on id equals order.AdministratorID
-                            where admin.Id == id 
+                            where admin.Id == id
                             select new
                             {
                                 admin.Id,
                                 admin.Username,
-                      
+
                                 order.TotalTons,
                                 order.Order_Date,
                                 order.TotalPayment
@@ -105,15 +102,13 @@ namespace FlourMill_1.Controllers
                             {
                                 admin.Id,
 
-                 
                                 admin.Username,
-                     
+
                                 order.TotalTons,
                                 order.TotalPayment,
                                 order.Order_Date
                             }).ToListAsync();
 
-           
                 double TotalBadges = 0;
                 double TotalMyPayment = 0;
 
@@ -152,39 +147,21 @@ namespace FlourMill_1.Controllers
         {
             int id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-           return await _context.Report.Where(x => x.AdministratorID == id).ToListAsync();
-
-
+            return await _context.Report.Where(x => x.AdministratorID == id).ToListAsync();
         }
-
 
         [HttpGet]
         [Route("get_allreports")]
         public async Task<ActionResult<IEnumerable<Report>>> GetAllReport()
         {
-          
-
             return await _context.Report.ToListAsync();
-
-
         }
 
-
-
-
-
-
-
-
-
-
         [HttpGet("{id}")]
-        public  ActionResult<Report> GetReport(int id)
+        public ActionResult<Report> GetReport(int id)
         {
             int id2 = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             string username = User.FindFirst(ClaimTypes.Name).Value;
-
-
 
             var ReportDetaileds = from order in _context.Order
                                   join orderp in _context.orderProducts on order.ID equals orderp.orderId
@@ -195,7 +172,7 @@ namespace FlourMill_1.Controllers
                                       orderp.Badge,
                                       orderp.price,
                                       orderp.tons,
-                            orderp.orderId
+                                      orderp.orderId
                                   } into t1
                                   group t1 by t1.Badge into g
                                   select new
@@ -204,20 +181,16 @@ namespace FlourMill_1.Controllers
                                       Tons = g.Sum(x => x.tons),
                                       Payment = g.Sum(x => x.price * x.tons)
                                   };
-        
 
             return Ok(ReportDetaileds);
         }
 
-       
         [HttpGet]
         [Route("single_reportsupervisor/{id}")]
         public ActionResult<Report> GetReportSupervisor(int id)
         {
-
             var getAdmin = _context.Report.Where(x => x.ID == id).Select(x2 => x2.AdministratorID).FirstOrDefault();
             int admin = getAdmin;
-   
 
             var ReportDetaileds = from order in _context.Order
                                   join orderp in _context.orderProducts on order.ID equals orderp.orderId
@@ -227,19 +200,16 @@ namespace FlourMill_1.Controllers
                                       orderp.tons,
                                       orderp.price,
                                       orderp.Badge,
-
-
                                   } into t1
                                   group t1 by t1.Badge into g
                                   select new
                                   {
                                       Product = g.Key,
                                       Tons = g.Sum(x => x.tons),
-                                      Payment = g.Sum(x => x.price*x.tons),
+                                      Payment = g.Sum(x => x.price * x.tons),
                                   };
             return Ok(ReportDetaileds);
         }
-
 
         [HttpGet]
         [Route("last_report")]

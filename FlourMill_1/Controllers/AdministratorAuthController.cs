@@ -80,7 +80,6 @@ namespace FlourMill_1.Controllers
 
             var userFromRepo = await _repo.AdminLogin(userForRegisterDto.Username.ToLower(), userForRegisterDto.Password);
 
-
             var clamis = new[]
             {
                 new Claim (ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
@@ -139,8 +138,6 @@ namespace FlourMill_1.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler();
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-
- 
 
                 var getUser2 = (from pd in _context.Administrator
                                 where pd.Username == userForRegisterDto.Username
@@ -206,8 +203,6 @@ namespace FlourMill_1.Controllers
 
             var token2 = tokenHandler2.CreateToken(tokenDescriptor2);
 
-       
-
             return Ok(new
             {
                 uInfo = getUser,
@@ -256,16 +251,14 @@ namespace FlourMill_1.Controllers
         {
             name = name.Trim();
             name = name.ToLower();
-         
+
             var c = _context.Administrator.FirstOrDefault(x => x.Username == name);
             if (c == null)
             {
-              
                 return Ok(new { check = "no" });
             }
             else
             {
-                
                 var userFromRepo = await _repo.AdminLoginFacebook(c.Username);
 
                 if (userFromRepo == null)
@@ -322,9 +315,6 @@ namespace FlourMill_1.Controllers
 
             var createdUser = await _repo.SuperVisorReg(SuperVisorCreation, password);
 
-
-
-
             string name3 = "moh";
             string password3 = "moh123";
 
@@ -335,26 +325,15 @@ namespace FlourMill_1.Controllers
 
             var AdminCreateion = new Administrator
             {
-               
                 Username = "moh",
                 Email = "moh@gmail.com",
                 BirthDate = "1/1/1998",
                 JobNumber = "989989595",
                 NationalId = 9959595959,
                 PhoneNumber = "7777777777",
-            
             };
 
             var createdUser3 = await _repo.AdminReg(AdminCreateion, password3);
-
-
-
-
-
-
-
-
-
 
             string name2 = "moh";
             string password2 = "moh123";
@@ -378,7 +357,7 @@ namespace FlourMill_1.Controllers
 
             var createdUser2 = await _repo.TruckDriverReg(TruckDriverCreation, password2);
 
-            return Ok(new { createdUser = "Supervisor Initiated ", createdUser2 = "Truck driver Initiated", createdUser3="Admin Created" });
+            return Ok(new { createdUser = "Supervisor Initiated ", createdUser2 = "Truck driver Initiated", createdUser3 = "Admin Created" });
         }
     }
 }

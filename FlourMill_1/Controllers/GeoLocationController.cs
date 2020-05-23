@@ -1,7 +1,6 @@
 ﻿using DatingApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlourMill_1.Controllers
 {
@@ -18,7 +17,7 @@ namespace FlourMill_1.Controllers
 
         [HttpGet]
         [Route("getLocation/{id}")]
-        public  IActionResult getLocation(int id)
+        public IActionResult getLocation(int id)
         {
             var geo = (from pd in _context.Bakery
                        where pd.Id == id

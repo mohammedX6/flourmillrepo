@@ -1,7 +1,8 @@
 ﻿using DatingApp.Data;
 using FlourMill_1.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -122,10 +123,32 @@ namespace FlourMill_1.Controllers
         public async Task<IActionResult> delAccountTruck(string id)
         {
             var accountTruck = await this._context.TruckDriver.FindAsync(id);
-            if (accountTruck == null)
+
+            var listOfOrdersTruckDriverAssigned = await (from o in _context.Order
+                                                         where id == o.TruckDriverID
+                                                         select new Order
+                                                         {
+                                                             ID = o.ID,
+                                                             AdministratorID = o.AdministratorID,
+                                                             TotalTons = o.TotalTons,
+                                                             BakeryID = o.BakeryID,
+                                                             CustomerName = o.CustomerName,
+                                                             Destination = o.Destination,
+                                                             Order_Date = o.Order_Date,
+                                                             OrderComment = o.OrderComment,
+                                                             OrderStatues = o.OrderStatues,
+                                                             ShipmentPrice = o.ShipmentPrice,
+                                                             TotalPayment = o.TotalPayment,
+                                                             TruckDriverID = o.TruckDriverID
+                                                         }).ToListAsync();
+
+            List<Order> beforeUpdate = listOfOrdersTruckDriverAssigned;
+
+            for (int i = 0; i < beforeUpdate.Count; i++)
             {
-                return NotFound();
+                beforeUpdate[i].TruckDriverID = "1";
             }
+            _context.Order.UpdateRange(beforeUpdate);
             this._context.TruckDriver.Remove(accountTruck);
             await this._context.SaveChangesAsync();
             return Ok("Account deleted successfully");
@@ -151,8 +174,6 @@ namespace FlourMill_1.Controllers
                                od.TotalTons
                            }).ToList();
 
-      
-
             double payment = 0;
             double tons = 0;
             for (int i = 0; i < allInfo.Count; i++)
@@ -173,8 +194,6 @@ namespace FlourMill_1.Controllers
                 payment,
                 tons
             };
-
-      
 
             return Ok(AllInfo);
         }

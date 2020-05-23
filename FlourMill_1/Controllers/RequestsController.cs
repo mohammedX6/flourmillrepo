@@ -35,6 +35,7 @@ namespace FlourMill_1.Controllers
                              r.OrderStatues,
                              r.CustomerName,
                              r.Destination,
+                             r.OrderComment,
                              r.TotalPayment
                          };
 

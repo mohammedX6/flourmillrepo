@@ -177,12 +177,10 @@ namespace FlourMill_1.Controllers
 
             if (c == null)
             {
- 
                 return Ok(new { check = "no" });
             }
             else
             {
-          
                 var userFromRepo = await _repo.TruckDriverLoginFacebook(c.Email);
 
                 var clamis = new[]

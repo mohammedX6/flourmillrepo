@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FlourMill_1.Controllers
 {
@@ -29,15 +30,18 @@ namespace FlourMill_1.Controllers
                         select new
                         {
                             order.TotalPayment,
+                            order.TotalTons,
                             orderp.Badge,
                             orderp.price,
                             orderp.orderId
+                            ,orderp.tons,
+                    
                         } into t1
                         group t1 by t1.Badge into g
                         select new
                         {
-                            Product = g.Key,
-                            Payment = g.Sum(x => x.price)
+                            Product = g.Key,              
+                            Payment = g.Sum(x => x.price * x.tons)
                         };
 
             return Ok(sales);
@@ -57,6 +61,7 @@ namespace FlourMill_1.Controllers
                             order.TotalTons,
                             orderp.Badge,
                             orderp.orderId
+
                         } into t1
                         group t1 by t1.Badge into g
                         select new
@@ -67,30 +72,25 @@ namespace FlourMill_1.Controllers
 
             return Ok(sales);
         }
+
         [HttpGet]
         [Route("get_salessupervisor")]
         public IActionResult Get_FlourMills_Sales()
         {
-
-
             var sales =
                         from order in _context.Order
                         join admin in _context.Administrator on order.AdministratorID equals admin.Id
-                       
 
                         select new
                         {
                             admin.Username,
                             order.TotalPayment,
-                       
                         } into t1
                         group t1 by t1.Username into g
                         select new
                         {
-                        
                             Product = g.Key,
                             Payment = g.Sum(x => x.TotalPayment)
-
                         };
 
             return Ok(sales);

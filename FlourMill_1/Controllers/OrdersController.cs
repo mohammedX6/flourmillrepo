@@ -199,8 +199,6 @@ namespace FlourMill_1.Controllers
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
- 
-
             var td = (from pd in _context.Order
 
                       where pd.TruckDriverID == id
