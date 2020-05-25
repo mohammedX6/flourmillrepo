@@ -41,33 +41,17 @@ async function deleteBakeryFirebase(email) {
 
 
 async function deleteTruckDriver(email) {
-    console.log("Called");
-  
-    var firebaseId;
-    firebase.firestore().collection("Users").where("email", "==",email)
-    .get()
-    .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-       
-            console.log(doc.id, " => ", doc.data());
-            firebaseId=doc.id;
-            console.log("id after "  + firebaseId);
-
-              firebase.firestore().collection("user_locations").doc(firebaseId).delete().then(function () {
+   
+              firebase.firestore().collection("user_locations").doc(email).delete().then(function () {
                 console.log("Account successfully deleted! TruckDriver Location");
             }).catch(function (error) {
                 console.error("Error removing document: ", error);
             });
-            firebase.firestore().collection("Users").doc(firebaseId).delete().then(function () {
+            firebase.firestore().collection("Users").doc(email).delete().then(function () {
                 console.log("Account successfully deleted! TruckDriver User");
             }).catch(function (error) {
                 console.error("Error removing document: ", error);
             });
 
-        });
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
-    });
 
 }
