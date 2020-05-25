@@ -1,38 +1,73 @@
-function deleteBakeryFirebase(id) {
+async function deleteBakeryFirebase(email) {
+    console.log("Called");
+  
+    var firebaseId;
+    firebase.firestore().collection("Users").where("email", "==",email)
+    .get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+       
+            console.log(doc.id, " => ", doc.data());
+            firebaseId=doc.id;
+            console.log("id after "  + firebaseId);
 
+              firebase.firestore().collection("Bakerys_Location").doc(firebaseId).delete().then(function () {
+                console.log("Account successfully deleted! Bakery Location");
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+            firebase.firestore().collection("Users").doc(firebaseId).delete().then(function () {
+                console.log("Account successfully deleted! Bakery User");
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
 
-    firebase.firestore().collection("Bakerys_Location").doc("DC").delete().then(function () {
-        console.log("Account successfully deleted! Location Bakery");
-    }).catch(function (error) {
-        console.error("Error removing document: ", error);
+        });
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
     });
-    firebase.firestore().collection("Users").doc("DC").delete().then(function () {
-        console.log("Account successfully deleted! Bakery ");
-    }).catch(function (error) {
-        console.error("Error removing document: ", error);
-    });
-
 }
 
-function deleteAdminFirebase(id) {
-    firebase.firestore().collection("flourmill_location").doc(id).delete().then(function () {
-        console.log("Account successfully deleted! Admin");
-    }).catch(function (error) {
-        console.error("Error removing document:", error);
-    });
-
+ function deleteAdminFirebase(id) {
+    console.log("Called 2");
+              firebase.firestore().collection("flourmill_location").doc(id+"").delete().then(function () {
+                console.log("Account successfully deleted! Admin Location");
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
 }
-function deleteTruckDriver(id) {
-    firebase.firestore().collection("user_locations").doc("DC").delete().then(function () {
-        console.log("Account successfully deleted! location TruckDriver");
-    }).catch(function (error) {
-        console.error("Error removing document: ", error);
-    });
 
-    firebase.firestore().collection("Users").doc("DC").delete().then(function () {
-        console.log("Account successfully deleted! Truck Driver");
-    }).catch(function (error) {
-        console.error("Error removing document: ", error);
+
+
+async function deleteTruckDriver(email) {
+    console.log("Called");
+  
+    var firebaseId;
+    firebase.firestore().collection("Users").where("email", "==",email)
+    .get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+       
+            console.log(doc.id, " => ", doc.data());
+            firebaseId=doc.id;
+            console.log("id after "  + firebaseId);
+
+              firebase.firestore().collection("user_locations").doc(firebaseId).delete().then(function () {
+                console.log("Account successfully deleted! TruckDriver Location");
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+            firebase.firestore().collection("Users").doc(firebaseId).delete().then(function () {
+                console.log("Account successfully deleted! TruckDriver User");
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+
+        });
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
     });
 
 }
