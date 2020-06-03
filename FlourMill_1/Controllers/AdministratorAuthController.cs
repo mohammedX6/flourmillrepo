@@ -110,6 +110,10 @@ namespace FlourMill_1.Controllers
         [HttpPost("admin_register_facebook")]
         public async Task<IActionResult> AdminRegisterFacebook(RegisterDTOFacebook userForRegisterDto)
         {
+            if(userForRegisterDto.Email==null)
+            {
+                userForRegisterDto.Email = userForRegisterDto.Username + "@gmail.com";
+            }
             userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
             if (await _repo.AdminExists(userForRegisterDto.Username))
             {
