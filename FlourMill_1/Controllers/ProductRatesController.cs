@@ -1,4 +1,4 @@
-﻿using DatingApp.Data;
+﻿using FlourMill_1.Data;
 using FlourMill_1.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

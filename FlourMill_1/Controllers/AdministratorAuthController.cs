@@ -1,5 +1,4 @@
-﻿using DatingApp.Data;
-using DatingApp.Dtos;
+﻿using FlourMill_1.Data;
 using FlourMill_1.Dtos;
 using FlourMill_1.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -38,10 +37,8 @@ namespace FlourMill_1.Controllers
                       select new
                       {
                           od.JobNumber,
-
                           od.Username,
-                          od.Email
-                          ,
+                          od.Email,
                           od.Id
                       }).ToList();
             return Ok(td);
@@ -110,7 +107,7 @@ namespace FlourMill_1.Controllers
         [HttpPost("admin_register_facebook")]
         public async Task<IActionResult> AdminRegisterFacebook(RegisterDTOFacebook userForRegisterDto)
         {
-            if(userForRegisterDto.Email==null)
+            if (userForRegisterDto.Email == null)
             {
                 userForRegisterDto.Email = userForRegisterDto.Username + "@gmail.com";
             }

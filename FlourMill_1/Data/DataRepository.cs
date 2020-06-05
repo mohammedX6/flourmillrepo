@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace DatingApp.Data
+namespace FlourMill_1.Data
 {
     public class DataRepository : IDataRepository
     {

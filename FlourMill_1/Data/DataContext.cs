@@ -1,7 +1,7 @@
 ﻿using FlourMill_1.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatingApp.Data
+namespace FlourMill_1.Data
 {
     public class DataContext : DbContext
     {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj": {}
+    "C:\\Users\\moham\\Desktop\\Project\\API\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj": {}
   },
   "projects": {
-    "E:\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj": {
+    "C:\\Users\\moham\\Desktop\\Project\\API\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj",
+        "projectUniqueName": "C:\\Users\\moham\\Desktop\\Project\\API\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj",
         "projectName": "FlourMill_1",
-        "projectPath": "E:\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj",
+        "projectPath": "C:\\Users\\moham\\Desktop\\Project\\API\\FlourMill_1\\FlourMill_1\\FlourMill_1.csproj",
         "packagesPath": "C:\\Users\\moham\\.nuget\\packages\\",
-        "outputPath": "E:\\FlourMill_1\\FlourMill_1\\obj\\",
+        "outputPath": "C:\\Users\\moham\\Desktop\\Project\\API\\FlourMill_1\\FlourMill_1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\moham\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -41,59 +41,55 @@
           "dependencies": {
             "EntityFramework": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.4.4, )"
             },
             "IdentityModel": {
               "target": "Package",
-              "version": "[4.1.1, )"
+              "version": "[4.3.0, )"
             },
             "JWT": {
               "target": "Package",
-              "version": "[6.1.0, )"
+              "version": "[7.2.1, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.4, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.4, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.4, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.4, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.2, )"
-            },
-            "Microsoft.EntityFrameworkCore.Sqlite": {
-              "target": "Package",
-              "version": "[3.1.1, )"
+              "version": "[3.1.4, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.4, )"
             },
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.4, )"
             },
             "Microsoft.NETCore.Platforms": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.3, )"
             },
             "System.Security.Claims": {
               "target": "Package",
@@ -117,7 +113,7 @@
             },
             "Twilio": {
               "target": "Package",
-              "version": "[5.38.0, )"
+              "version": "[5.42.0, )"
             },
             "runtime.native.System.Security.Cryptography": {
               "target": "Package",
@@ -134,6 +130,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -142,7 +144,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

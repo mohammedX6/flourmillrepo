@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DatingApp
+namespace FlourMill_1
 {
     public class Program
     {

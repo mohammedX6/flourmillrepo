@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DatingApp.Dtos
+namespace FlourMill_1.Dtos
 {
     public class FirebaseForLoginDTO
     {
-        [Required]
         public string email { get; set; }
 
         [Required]

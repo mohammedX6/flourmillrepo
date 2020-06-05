@@ -1,7 +1,7 @@
 ﻿using FlourMill_1.Models;
 using System.Threading.Tasks;
 
-namespace DatingApp.Data
+namespace FlourMill_1.Data
 {
     public interface IDataRepository
     {
